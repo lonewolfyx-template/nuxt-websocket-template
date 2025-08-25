@@ -6,11 +6,13 @@
 
 import {useSocket} from "~~/modules/runtime/composables/socket";
 
+const result = ref({})
 const {request, status} = useSocket()
 
 const sendPing = async () => {
-    const result = await request.value!['getUserList']();
-    console.log('Server reply:', result)
+    const resul = await request.value!['getUserList']();
+    result.value = resul
+    console.log('Server reply:', resul)
 }
 
 
@@ -25,6 +27,6 @@ const sendPing = async () => {
 
         <p>Status: {{ status }}</p>
         <button @click="sendPing">Send Ping</button>
-
+        {{result}}
     </div>
 </template>
