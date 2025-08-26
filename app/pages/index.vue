@@ -1,20 +1,21 @@
 <script lang="ts" setup>
+import {useSocketInfo, useWebSocket} from "~~/modules/socket.io/composables/socket";
 
-// const {$websocket, $socket} = useNuxtApp()
-// console.log($websocket)
-// console.log($socket)
-
-import {useSocket} from "~~/modules/runtime/composables/socket";
-
-const result = ref({})
-const {request, status} = useSocket()
-
-const sendPing = async () => {
-    const resul = await request.value!['getUserList']();
-    result.value = resul
-    console.log('Server reply:', resul)
+const rpc = useWebSocket()
+const sendPing = () => {
+    rpc('asd')
 }
+const socket = useSocketInfo();
 
+// 注册一个消息监听器
+socket.value.message((message) => {
+    console.log('收到消息:', message);
+});
+
+// 可以注册多个
+socket.value.message((message) => {
+    console.log('另一个监听器:', message);
+});
 
 </script>
 
@@ -25,8 +26,8 @@ const sendPing = async () => {
         <!--        <input v-model="content">-->
         <!--        <button @click="send(JSON.stringify(content))">Send</button>-->
 
-        <p>Status: {{ status }}</p>
+        <!--        <p>Status: {{ status }}</p>-->
         <button @click="sendPing">Send Ping</button>
-        {{result}}
+        <!--        {{result}}-->
     </div>
 </template>

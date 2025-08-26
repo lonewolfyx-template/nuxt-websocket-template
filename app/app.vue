@@ -3,4 +3,6 @@
 </template>
 
 <script setup>
+const {$connectSocketServer} = useNuxtApp()
+$connectSocketServer()
 </script>
